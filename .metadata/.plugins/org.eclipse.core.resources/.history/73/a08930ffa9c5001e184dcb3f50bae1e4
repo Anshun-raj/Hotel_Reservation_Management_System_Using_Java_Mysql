@@ -1,0 +1,91 @@
+package Hotel_Reservation;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class Hotel_Reserve 
+{
+	
+		 
+		 public static void main(String[] argv) throws SQLException 
+		 {
+		        Hotel_Reserve obj = new Hotel_Reserve();
+//		        obj.addInfo();
+		        obj.updateInfo();
+//		        obj.deleteInfo();
+		 }
+		 public void addInfo() throws SQLException 
+		 {
+		        	Scanner sc=new Scanner(System.in);
+		            
+		            System.out.println("Enter guest name:-");
+		            String name=sc.nextLine();
+		            System.out.println("Enter aadhar no.:-");
+		            Long aadhar=sc.nextLong();
+		            System.out.println("Enter guest's age:-");
+		            int age=sc.nextInt();
+		            
+		            String s1="INSERT INTO DATA" +
+					        "  (cust_nm,aadhar_no,age) VALUES " +
+					        " (?, ?, ?);";
+		            try (Connection con = DriverManager
+		                .getConnection("jdbc:mysql://localhost:3306/test","root","");
+		            		
+		            		PreparedStatement prsmt = con.prepareStatement(s1)) 
+		            {
+		                    
+		                  prsmt.setString(1, name);
+		                  prsmt.setLong(2,aadhar);
+		                  prsmt.setInt(3, age);
+		                  
+		                prsmt.executeUpdate();
+		            }
+		            catch (SQLException e) {
+		              System.out.println(e);
+		            }
+
+
+		    }
+		 
+		 public void updateInfo() throws SQLException
+		 {
+			 Scanner sc=new Scanner(System.in);
+			 System.out.println("Enter the aadhar no of guest whose data you want to update:-");
+			 Long aadhar1=sc.nextLong();
+			 String s2="UPDATE cust_nm FROM DATA WHERE aadhar_no="+aadhar1;
+			try(Connection con = DriverManager
+					.getConnection("jdbc:mysql://localhost:3306/test","root","");
+					Statement stmt=con.createStatement())
+			{
+				stmt.executeQuery(s2);
+			}
+			catch (SQLException e) {
+	              System.out.println(e);
+	        }	
+			 
+		 }
+		 
+		 public void deleteInfo() throws SQLException
+		 {
+			 Scanner sc=new Scanner(System.in);
+			 System.out.println("Enter the name of guest whose data you want to delete:-");
+			 String name1=sc.nextLine();
+			 String s3="DELETE FROM DATA WHERE cust_nm="+name1;
+			try(Connection con = DriverManager
+					.getConnection("jdbc:mysql://localhost:3306/test","root","");
+					Statement stmt=con.createStatement())
+			{
+				stmt.executeQuery(s3);
+			}
+			catch (SQLException e) {
+	              System.out.println(e);
+	        }	
+			 
+		 }
+
+}
+

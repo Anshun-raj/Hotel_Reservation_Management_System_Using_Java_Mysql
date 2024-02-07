@@ -1,0 +1,52 @@
+package Hotel_Reservation;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class Hotel_Reserve 
+{
+	
+	private	static final String IN_DATA = "INSERT INTO users" +
+			        "  (id, name, email, country, password) VALUES " +
+			        " (?, ?, ?);";
+		 
+		 public static void main(String[] argv) throws SQLException 
+		 {
+		        Hotel_Reserve obj = new Hotel_Reserve();
+		        obj.addInfo();
+		 }
+		 public void addInfo() throws SQLException {
+		        	Scanner sc=new Scanner(System.in);
+		            
+		            System.out.println("Enter guest name:-");
+		            String name=sc.nextLine();
+		            System.out.println("Enter aadhar no.:-");
+		            Long aadhar=sc.nextLong();
+		            System.out.println("Enter guest's age:-");
+		            int age=sc.nextInt();
+		            
+		            System.out.println(IN_DATA);
+		            try (Connection con = DriverManager
+		                .getConnection("jdbc:mysql://localhost:3306/info", "root", "");
+		            		
+		            		PreparedStatement prsmt = con.prepareStatement(IN_DATA)) 
+		            {
+		                    
+		                  prsmt.setString(1, name);
+		                  prsmt.setLong(2,aadhar);
+		                  prsmt.setInt(3, age);
+		                  
+		                prsmt.executeUpdate();
+		            } 
+		            catch (SQLException e) {
+		              System.out.println(e);
+		            }
+
+
+		    }
+
+}
+
